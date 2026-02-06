@@ -1,4 +1,4 @@
-const CACHE_NAME = 'meditation-journey-v2';
+const CACHE_NAME = 'meditation-journey-v3';
 const ASSETS = [
   '/',
   '/index.html',
