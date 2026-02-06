@@ -3,673 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#1a1a2e">
+    <meta name="theme-color" content="#faf9f7">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <link rel="manifest" href="manifest.json">
     <title>Meditation Journey</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --bg-deep: #0d0d1a;
-            --bg-mid: #1a1a2e;
-            --text-primary: #e8e6e3;
-            --text-muted: #7a7a8c;
-            --accent: #c9a962;
-            --accent-glow: rgba(201, 169, 98, 0.3);
-        }
-
-        html, body {
-            height: 100%;
-            overflow: hidden;
-        }
-
-        body {
-            font-family: 'DM Sans', sans-serif;
-            background: var(--bg-deep);
-            color: var(--text-primary);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            position: relative;
-        }
-
-        /* Animated background */
-        .bg-layer {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .bg-gradient {
-            background: radial-gradient(ellipse at 50% 0%, rgba(45, 45, 80, 0.5) 0%, transparent 60%),
-                        radial-gradient(ellipse at 80% 80%, rgba(30, 30, 60, 0.4) 0%, transparent 50%),
-                        radial-gradient(ellipse at 20% 90%, rgba(40, 35, 50, 0.3) 0%, transparent 40%);
-        }
-
-        .stars {
-            background-image: 
-                radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.3), transparent),
-                radial-gradient(1px 1px at 40% 70%, rgba(255,255,255,0.2), transparent),
-                radial-gradient(1px 1px at 50% 20%, rgba(255,255,255,0.25), transparent),
-                radial-gradient(1px 1px at 60% 50%, rgba(255,255,255,0.15), transparent),
-                radial-gradient(1px 1px at 70% 80%, rgba(255,255,255,0.2), transparent),
-                radial-gradient(1px 1px at 80% 10%, rgba(255,255,255,0.3), transparent),
-                radial-gradient(1px 1px at 10% 60%, rgba(255,255,255,0.2), transparent),
-                radial-gradient(1px 1px at 90% 40%, rgba(255,255,255,0.15), transparent),
-                radial-gradient(1.5px 1.5px at 25% 85%, rgba(255,255,255,0.35), transparent),
-                radial-gradient(1.5px 1.5px at 75% 25%, rgba(255,255,255,0.3), transparent);
-            animation: twinkle 8s ease-in-out infinite alternate;
-        }
-
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 1; }
-        }
-
-        /* Main container */
-        .container {
-            position: relative;
-            z-index: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 2rem;
-            max-width: 400px;
-            width: 100%;
-        }
-
-        /* Title */
-        .title {
-            font-family: 'Cormorant Garamond', serif;
-            font-weight: 300;
-            font-size: 2.5rem;
-            letter-spacing: 0.4em;
-            text-transform: uppercase;
-            margin-bottom: 0.5rem;
-            color: var(--text-primary);
-            text-indent: 0.4em;
-        }
-
-        .subtitle {
-            font-size: 0.75rem;
-            letter-spacing: 0.3em;
-            color: var(--text-muted);
-            margin-bottom: 3rem;
-            text-transform: uppercase;
-        }
-
-        /* Timer circle */
-        .timer-container {
-            position: relative;
-            width: 260px;
-            height: 260px;
-            margin-bottom: 2.5rem;
-        }
-
-        .timer-ring {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        .timer-ring svg {
-            transform: rotate(-90deg);
-            width: 100%;
-            height: 100%;
-        }
-
-        .timer-ring-bg {
-            fill: none;
-            stroke: rgba(255, 255, 255, 0.05);
-            stroke-width: 2;
-        }
-
-        .timer-ring-progress {
-            fill: none;
-            stroke: var(--accent);
-            stroke-width: 2;
-            stroke-linecap: round;
-            stroke-dasharray: 785.4;
-            stroke-dashoffset: 0;
-            transition: stroke-dashoffset 0.5s ease;
-            filter: drop-shadow(0 0 8px var(--accent-glow));
-        }
-
-        .timer-display {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-        }
-
-        .time-value {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 4.5rem;
-            font-weight: 300;
-            line-height: 1;
-            letter-spacing: 0.05em;
-        }
-
-        .time-label {
-            font-size: 0.7rem;
-            letter-spacing: 0.25em;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            margin-top: 0.5rem;
-        }
-
-        /* Duration input (setup mode) */
-        .setup-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .duration-control {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-        }
-
-        .duration-btn {
-            width: 44px;
-            height: 44px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            background: rgba(255, 255, 255, 0.03);
-            color: var(--text-primary);
-            font-size: 1.5rem;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            line-height: 1;
-        }
-
-        .duration-btn:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: var(--accent);
-        }
-
-        .duration-btn:active {
-            transform: scale(0.95);
-        }
-
-        .duration-value {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 3rem;
-            font-weight: 300;
-            min-width: 80px;
-            text-align: center;
-        }
-
-        .duration-unit {
-            font-size: 0.75rem;
-            letter-spacing: 0.2em;
-            color: var(--text-muted);
-            text-transform: uppercase;
-        }
-
-        /* Start button */
-        .start-btn {
-            margin-top: 2rem;
-            padding: 1rem 3rem;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 0.8rem;
-            font-weight: 400;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            color: var(--bg-deep);
-            background: var(--accent);
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.4s ease;
-            box-shadow: 0 4px 20px var(--accent-glow);
-        }
-
-        .start-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 30px var(--accent-glow);
-        }
-
-        .start-btn:active {
-            transform: translateY(0);
-        }
-
-        /* Active session */
-        .session-active .setup-container {
-            display: none;
-        }
-
-        .active-controls {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            gap: 1.5rem;
-        }
-
-        .session-active .active-controls {
-            display: flex;
-        }
-
-        .stop-btn {
-            padding: 0.8rem 2rem;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 0.7rem;
-            font-weight: 400;
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .stop-btn:hover {
-            border-color: var(--text-muted);
-            color: var(--text-primary);
-        }
-
-        /* Breathing indicator */
-        .breath-indicator {
-            position: absolute;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-
-        .session-active .breath-indicator {
-            opacity: 1;
-        }
-
-        .breath-dot {
-            width: 6px;
-            height: 6px;
-            background: var(--accent);
-            border-radius: 50%;
-            animation: breathe 4s ease-in-out infinite;
-        }
-
-        .breath-text {
-            margin-top: 0.75rem;
-            font-size: 0.65rem;
-            letter-spacing: 0.2em;
-            color: var(--text-muted);
-            text-transform: uppercase;
-        }
-
-        @keyframes breathe {
-            0%, 100% { 
-                transform: scale(1);
-                opacity: 0.4;
-            }
-            50% { 
-                transform: scale(2);
-                opacity: 1;
-            }
-        }
-
-        /* Bell animation overlay */
-        .bell-flash {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at center, var(--accent-glow) 0%, transparent 70%);
-            opacity: 0;
-            pointer-events: none;
-            z-index: 10;
-            transition: opacity 0.1s ease;
-        }
-
-        .bell-flash.active {
-            opacity: 1;
-            animation: bellPulse 1.5s ease-out forwards;
-        }
-
-        @keyframes bellPulse {
-            0% { opacity: 0.6; }
-            100% { opacity: 0; }
-        }
-
-        /* Completion state */
-        .complete-message {
-            display: none;
-            text-align: center;
-        }
-
-        .session-complete .setup-container,
-        .session-complete .active-controls {
-            display: none;
-        }
-
-        .session-complete .complete-message {
-            display: block;
-        }
-
-        .complete-message h2 {
-            font-family: 'Cormorant Garamond', serif;
-            font-weight: 300;
-            font-size: 1.8rem;
-            letter-spacing: 0.15em;
-            margin-bottom: 0.5rem;
-        }
-
-        .complete-message p {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-bottom: 2rem;
-        }
-
-        .restart-btn {
-            padding: 0.8rem 2rem;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 0.7rem;
-            font-weight: 400;
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
-            color: var(--text-primary);
-            background: transparent;
-            border: 1px solid var(--accent);
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .restart-btn:hover {
-            background: var(--accent);
-            color: var(--bg-deep);
-        }
-    </style>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <div class="bg-layer bg-gradient"></div>
-    <div class="bg-layer stars"></div>
     <div class="bell-flash" id="bellFlash"></div>
 
-    <div class="container" id="app">
-        <h1 class="title">Journey</h1>
-        <p class="subtitle">Meditation</p>
+    <!-- Onboarding -->
+    <div class="view" id="onboarding-view">
+        <h1 class="view-title">Journey</h1>
+        <p class="view-subtitle">30 days of meditation</p>
+        <p class="onboarding-label">Set your daily goal</p>
+        <div class="goal-picker">
+            <button class="btn-round" id="onboard-decrease">&minus;</button>
+            <div class="goal-value" id="onboard-goal">10</div>
+            <button class="btn-round" id="onboard-increase">+</button>
+        </div>
+        <div class="goal-unit">minutes per day</div>
+        <button class="btn-primary" id="onboard-start">Begin Journey</button>
+    </div>
 
-        <div class="timer-container">
-            <div class="timer-ring">
-                <svg viewBox="0 0 260 260">
-                    <circle class="timer-ring-bg" cx="130" cy="130" r="125"></circle>
-                    <circle class="timer-ring-progress" id="progressRing" cx="130" cy="130" r="125"></circle>
-                </svg>
-            </div>
-            <div class="timer-display">
-                <div class="time-value" id="timeDisplay">10</div>
-                <div class="time-label" id="timeLabel">minutes</div>
+    <!-- Journey -->
+    <div class="view" id="journey-view">
+        <div class="day-header" id="journey-day-header">Day 1 of 30</div>
+        <div class="day-date" id="journey-day-date"></div>
+        <div class="stone-grid" id="stone-grid"></div>
+        <div class="today-progress">
+            <div class="progress-label" id="progress-label">0 / 10 minutes today</div>
+            <div class="progress-bar-track">
+                <div class="progress-bar-fill" id="progress-fill"></div>
             </div>
         </div>
+        <button class="btn-primary" id="journey-meditate">Meditate</button>
+        <div class="journey-actions">
+            <button class="btn-secondary" id="journey-change-goal">Change Goal</button>
+            <button class="btn-secondary" id="journey-restart">Restart</button>
+        </div>
+    </div>
 
-        <div class="setup-container">
-            <div class="duration-control">
-                <button class="duration-btn" id="decreaseBtn">−</button>
-                <div>
-                    <div class="duration-value" id="durationValue">10</div>
-                    <div class="duration-unit">minutes</div>
+    <!-- Timer -->
+    <div class="view" id="timer-view">
+        <div class="timer-setup" id="timer-setup">
+            <h2 class="view-title">Meditate</h2>
+            <p class="view-subtitle" id="timer-goal-hint"></p>
+            <div class="timer-duration-picker">
+                <button class="btn-round" id="timer-decrease">&minus;</button>
+                <div class="timer-duration-value" id="timer-duration">10</div>
+                <button class="btn-round" id="timer-increase">+</button>
+            </div>
+            <div class="timer-duration-unit">minutes</div>
+            <button class="btn-primary" id="timer-start">Begin</button>
+            <button class="btn-secondary" id="timer-back" style="margin-top:1rem;">Back</button>
+        </div>
+
+        <div class="timer-active" id="timer-active">
+            <div class="timer-container">
+                <div class="timer-ring">
+                    <svg viewBox="0 0 240 240">
+                        <circle class="timer-ring-bg" cx="120" cy="120" r="115"></circle>
+                        <circle class="timer-ring-progress" id="timer-ring-progress" cx="120" cy="120" r="115"></circle>
+                    </svg>
                 </div>
-                <button class="duration-btn" id="increaseBtn">+</button>
+                <div class="timer-display">
+                    <div class="timer-time" id="timer-time">10:00</div>
+                    <div class="timer-label">remaining</div>
+                </div>
             </div>
-            <button class="start-btn" id="startBtn">Begin</button>
+            <div class="breath-indicator visible">
+                <div class="breath-dot"></div>
+                <div class="breath-text">Breathe</div>
+            </div>
+            <button class="btn-secondary" id="timer-stop">End Session</button>
         </div>
 
-        <div class="active-controls">
-            <button class="stop-btn" id="stopBtn">End Session</button>
-        </div>
-
-        <div class="complete-message">
+        <div class="timer-complete-msg" id="timer-complete">
             <h2>Session Complete</h2>
-            <p>May peace be with you</p>
-            <button class="restart-btn" id="restartBtn">New Session</button>
+            <p>Well done. Take a moment.</p>
+            <button class="btn-primary" id="timer-done">Continue</button>
         </div>
     </div>
 
-    <div class="breath-indicator">
-        <div class="breath-dot"></div>
-        <div class="breath-text">Breathe</div>
+    <!-- Completion -->
+    <div class="view" id="completion-view">
+        <h1 class="completion-title">Journey Complete</h1>
+        <p class="completion-subtitle">30 days of dedication</p>
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-value" id="stat-days">0</div>
+                <div class="stat-label">Days Goal Met</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="stat-minutes">0</div>
+                <div class="stat-label">Total Minutes</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="stat-sessions">0</div>
+                <div class="stat-label">Sessions</div>
+            </div>
+        </div>
+        <button class="btn-primary" id="completion-restart">Begin Again</button>
     </div>
 
+    <!-- Change goal modal -->
+    <div class="modal-overlay" id="goal-modal">
+        <div class="modal">
+            <h3>Change Daily Goal</h3>
+            <div class="goal-picker">
+                <button class="btn-round" id="modal-decrease">&minus;</button>
+                <div class="goal-value" id="modal-goal">10</div>
+                <button class="btn-round" id="modal-increase">+</button>
+            </div>
+            <div class="goal-unit">minutes per day</div>
+            <div class="modal-actions">
+                <button class="btn-secondary" id="modal-cancel">Cancel</button>
+                <button class="btn-primary" id="modal-save" style="padding:0.7rem 1.5rem;font-size:0.7rem;">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="js/ui/app.js"></script>
     <script>
-        // Audio Context for generating bell sounds
-        let audioContext = null;
-
-        function initAudio() {
-            if (!audioContext) {
-                audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            }
-            if (audioContext.state === 'suspended') {
-                audioContext.resume();
-            }
-        }
-
-        // Gong -- 8 oscillators with inharmonic partials
-        function playGong() {
-            initAudio();
-            const now = audioContext.currentTime;
-
-            // Master gain to prevent clipping
-            const masterGain = audioContext.createGain();
-            masterGain.gain.setValueAtTime(0.35, now);
-            masterGain.connect(audioContext.destination);
-
-            // Compressor for dynamics control
-            const comp = audioContext.createDynamicsCompressor();
-            comp.threshold.setValueAtTime(-12, now);
-            comp.ratio.setValueAtTime(6, now);
-            comp.connect(masterGain);
-
-            // Helper: create an oscillator with bloom envelope (ramp to 70% in 5ms, swell to 100% by 150ms, then decay)
-            function bloomOsc(type, freq, peakGain, decayTime, stopTime) {
-                const osc = audioContext.createOscillator();
-                const gain = audioContext.createGain();
-                osc.type = type;
-                osc.frequency.setValueAtTime(freq, now);
-                gain.gain.setValueAtTime(0, now);
-                gain.gain.linearRampToValueAtTime(peakGain * 0.7, now + 0.005);
-                gain.gain.linearRampToValueAtTime(peakGain, now + 0.15);
-                gain.gain.exponentialRampToValueAtTime(0.001, now + decayTime);
-                osc.connect(gain);
-                gain.connect(comp);
-                osc.start(now);
-                osc.stop(now + stopTime);
-            }
-
-            // 1. Fundamental
-            bloomOsc('sine', 350, 0.8, 6.0, 6.5);
-            // 2. Beating partner (+3Hz)
-            bloomOsc('sine', 353, 0.7, 6.0, 6.5);
-            // 3. Partial 1.48x
-            bloomOsc('sine', 518, 0.45, 4.5, 5.0);
-            // 4. Partial 1.83x
-            bloomOsc('sine', 641, 0.35, 3.5, 4.0);
-            // 5. Partial 2.37x
-            bloomOsc('sine', 830, 0.25, 3.0, 3.5);
-            // 6. Beat partner to #5 (+5Hz)
-            bloomOsc('sine', 835, 0.20, 3.0, 3.5);
-            // 7. High metallic partial 2.92x
-            bloomOsc('sine', 1022, 0.15, 2.0, 2.5);
-
-            // 8. Strike transient -- triangle wave sweeping 1500->800Hz
-            const oscStrike = audioContext.createOscillator();
-            const gainStrike = audioContext.createGain();
-            oscStrike.type = 'triangle';
-            oscStrike.frequency.setValueAtTime(1500, now);
-            oscStrike.frequency.exponentialRampToValueAtTime(800, now + 0.2);
-            gainStrike.gain.setValueAtTime(0.50, now);
-            gainStrike.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
-            oscStrike.connect(gainStrike);
-            gainStrike.connect(comp);
-            oscStrike.start(now);
-            oscStrike.stop(now + 0.3);
-
-            triggerBellFlash();
-        }
-
-        function triggerBellFlash() {
-            const flash = document.getElementById('bellFlash');
-            flash.classList.remove('active');
-            void flash.offsetWidth; // Trigger reflow
-            flash.classList.add('active');
-        }
-
-        // App state
-        let duration = 10; // minutes
-        let timeRemaining = 0; // seconds
-        let totalTime = 0;
-        let timerInterval = null;
-        let lastMinute = 0;
-
-        // DOM elements
-        const app = document.getElementById('app');
-        const durationValue = document.getElementById('durationValue');
-        const timeDisplay = document.getElementById('timeDisplay');
-        const timeLabel = document.getElementById('timeLabel');
-        const progressRing = document.getElementById('progressRing');
-        const decreaseBtn = document.getElementById('decreaseBtn');
-        const increaseBtn = document.getElementById('increaseBtn');
-        const startBtn = document.getElementById('startBtn');
-        const stopBtn = document.getElementById('stopBtn');
-        const restartBtn = document.getElementById('restartBtn');
-
-        // Progress ring circumference
-        const circumference = 2 * Math.PI * 125;
-        progressRing.style.strokeDasharray = circumference;
-
-        function updateDurationDisplay() {
-            durationValue.textContent = duration;
-            timeDisplay.textContent = duration;
-        }
-
-        function formatTime(seconds) {
-            const mins = Math.floor(seconds / 60);
-            const secs = seconds % 60;
-            return `${mins}:${secs.toString().padStart(2, '0')}`;
-        }
-
-        function updateTimerDisplay() {
-            timeDisplay.textContent = formatTime(timeRemaining);
-            timeLabel.textContent = 'remaining';
-            
-            // Update progress ring
-            const progress = (totalTime - timeRemaining) / totalTime;
-            const offset = circumference * (1 - progress);
-            progressRing.style.strokeDashoffset = offset;
-        }
-
-        function startSession() {
-            initAudio();
-            app.classList.add('session-active');
-            app.classList.remove('session-complete');
-            
-            totalTime = duration * 60;
-            timeRemaining = totalTime;
-            lastMinute = duration;
-            
-            updateTimerDisplay();
-            
-            // Play start bell
-            playGong();
-            
-            timerInterval = setInterval(() => {
-                timeRemaining--;
-                
-                if (timeRemaining <= 0) {
-                    endSession(true);
-                    return;
-                }
-                
-                // Check for minute intervals (play bell at each minute mark)
-                const currentMinute = Math.ceil(timeRemaining / 60);
-                if (currentMinute < lastMinute && timeRemaining > 0) {
-                    playGong();
-                    lastMinute = currentMinute;
-                }
-                
-                updateTimerDisplay();
-            }, 1000);
-        }
-
-        function endSession(completed = false) {
-            clearInterval(timerInterval);
-            timerInterval = null;
-            
-            if (completed) {
-                playGong();
-                setTimeout(() => playGong(), 3000);
-                app.classList.remove('session-active');
-                app.classList.add('session-complete');
-            } else {
-                app.classList.remove('session-active');
-                resetDisplay();
-            }
-        }
-
-        function resetDisplay() {
-            timeDisplay.textContent = duration;
-            timeLabel.textContent = 'minutes';
-            progressRing.style.strokeDashoffset = 0;
-        }
-
-        // Event listeners
-        decreaseBtn.addEventListener('click', () => {
-            if (duration > 1) {
-                duration--;
-                updateDurationDisplay();
-            }
-        });
-
-        increaseBtn.addEventListener('click', () => {
-            if (duration < 120) {
-                duration++;
-                updateDurationDisplay();
-            }
-        });
-
-        startBtn.addEventListener('click', startSession);
-        stopBtn.addEventListener('click', () => endSession(false));
-        restartBtn.addEventListener('click', () => {
-            app.classList.remove('session-complete');
-            resetDisplay();
-        });
-
-        // Register service worker
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js')
-                    .then(reg => console.log('Service Worker registered'))
-                    .catch(err => console.log('Service Worker registration failed:', err));
+                    .then(() => {})
+                    .catch(err => console.log('SW registration failed:', err));
             });
         }
     </script>

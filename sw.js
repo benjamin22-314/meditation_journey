@@ -1,8 +1,19 @@
-const CACHE_NAME = 'meditation-journey-v1';
+const CACHE_NAME = 'meditation-journey-v2';
 const ASSETS = [
   '/',
   '/index.html',
   '/manifest.json',
+  '/css/styles.css',
+  '/js/core/audio.js',
+  '/js/core/journey.js',
+  '/js/core/storage.js',
+  '/js/core/timer.js',
+  '/js/utils/date-helpers.js',
+  '/js/ui/app.js',
+  '/js/ui/onboarding-view.js',
+  '/js/ui/journey-view.js',
+  '/js/ui/timer-view.js',
+  '/js/ui/completion-view.js',
   '/icon-192.png',
   '/icon-512.png'
 ];
@@ -37,11 +48,9 @@ self.addEventListener('fetch', event => {
           return response;
         }
         return fetch(event.request).then(response => {
-          // Don't cache non-successful responses or non-GET requests
           if (!response || response.status !== 200 || event.request.method !== 'GET') {
             return response;
           }
-          // Clone and cache the response
           const responseToCache = response.clone();
           caches.open(CACHE_NAME).then(cache => {
             cache.put(event.request, responseToCache);
@@ -50,7 +59,6 @@ self.addEventListener('fetch', event => {
         });
       })
       .catch(() => {
-        // Return offline fallback if available
         return caches.match('/index.html');
       })
   );

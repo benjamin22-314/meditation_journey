@@ -1,11 +1,11 @@
 {
   "name": "Meditation Journey",
   "short_name": "Meditation Journey",
-  "description": "A meditation journey with gentle bell sounds",
+  "description": "A 30-day meditation journey with gentle bell sounds",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#0d0d1a",
-  "theme_color": "#1a1a2e",
+  "background_color": "#faf9f7",
+  "theme_color": "#faf9f7",
   "orientation": "portrait",
   "icons": [
     {
