@@ -21,7 +21,6 @@
 
 html, body {
   height: 100%;
-  overflow: hidden;
 }
 
 body {
@@ -40,10 +39,13 @@ body {
   display: none;
   flex-direction: column;
   align-items: center;
-  padding: 2rem 1.5rem;
-  max-width: 400px;
+  padding: 2rem clamp(1rem, 5vw, 2rem);
+  padding-top: max(2rem, env(safe-area-inset-top, 0px));
+  padding-bottom: max(2rem, env(safe-area-inset-bottom, 0px));
+  max-width: 480px;
   width: 100%;
   text-align: center;
+  overflow-y: auto;
 }
 
 .view.active {
@@ -53,7 +55,7 @@ body {
 .view-title {
   font-family: 'Cormorant Garamond', serif;
   font-weight: 300;
-  font-size: 2rem;
+  font-size: clamp(1.6rem, 6vw, 2.2rem);
   letter-spacing: 0.15em;
   margin-bottom: 0.25rem;
   color: var(--text-primary);
@@ -95,6 +97,7 @@ body {
 
 .btn-secondary {
   padding: 0.7rem 1.8rem;
+  min-height: 44px;
   font-family: 'DM Sans', sans-serif;
   font-size: 0.7rem;
   font-weight: 400;
@@ -159,7 +162,7 @@ body {
 
 .goal-value {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 3.5rem;
+  font-size: clamp(2.5rem, 8vw, 3.5rem);
   font-weight: 300;
   min-width: 80px;
   text-align: center;
@@ -178,7 +181,8 @@ body {
 #journey-view {
   justify-content: flex-start;
   min-height: 100dvh;
-  padding-top: 3rem;
+  padding-top: max(2rem, env(safe-area-inset-top, 2rem));
+  padding-bottom: max(2rem, env(safe-area-inset-bottom, 2rem));
 }
 
 .day-header {
@@ -204,15 +208,14 @@ body {
   gap: 12px;
   margin-bottom: 2rem;
   width: 100%;
-  max-width: 300px;
+  max-width: min(300px, 100%);
 }
 
 .stone {
-  width: 40px;
-  height: 40px;
+  width: 100%;
+  aspect-ratio: 1;
   border-radius: 50%;
   background: var(--stone-empty);
-  justify-self: center;
   transition: all 0.3s ease;
   position: relative;
   display: flex;
@@ -244,7 +247,7 @@ body {
 /* Today's progress */
 .today-progress {
   width: 100%;
-  max-width: 300px;
+  max-width: min(300px, 100%);
   margin-bottom: 1.5rem;
 }
 
@@ -303,7 +306,7 @@ body {
 
 .timer-duration-value {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 3rem;
+  font-size: clamp(2.5rem, 8vw, 3.5rem);
   font-weight: 300;
   min-width: 80px;
   text-align: center;
@@ -334,8 +337,8 @@ body {
 
 .timer-container {
   position: relative;
-  width: 240px;
-  height: 240px;
+  width: min(240px, 65vw);
+  height: min(240px, 65vw);
   margin-bottom: 2rem;
 }
 
@@ -378,7 +381,7 @@ body {
 
 .timer-time {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 3.5rem;
+  font-size: clamp(2.5rem, 8vw, 3.5rem);
   font-weight: 300;
   line-height: 1;
   color: var(--text-primary);
@@ -490,7 +493,7 @@ body {
 .completion-title {
   font-family: 'Cormorant Garamond', serif;
   font-weight: 300;
-  font-size: 2.2rem;
+  font-size: clamp(1.6rem, 6vw, 2.2rem);
   letter-spacing: 0.15em;
   margin-bottom: 0.5rem;
 }
